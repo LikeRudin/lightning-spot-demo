@@ -1,0 +1,11 @@
+name: "Feature"
+description: "새로운 기능 구현"
+labels: "✨ Feature"
+body:
+  - type: textarea
+    attributes:
+      label: 📄 설명
+      description: 구현사항 설명
+      placeholder: 자세히 적어주세요.
+    validations:
+      required: true
