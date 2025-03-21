@@ -5,3 +5,5 @@
 frontend - zing
 
 backend - 영진
+
+stack : React.js, Nest.js

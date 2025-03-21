@@ -6,6 +6,6 @@ body:
     attributes:
       label: 📄 설명
       description: 긴급한 수정
-      placeholder: 무엇을 왜 수정하는지 간단하게 설명해주세요.
+      placeholder: 무엇을 수정하는지 간단하게 설명해주세요.
     validations:
       required: true
