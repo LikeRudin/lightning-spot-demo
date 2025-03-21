@@ -1,0 +1,25 @@
+name: "style"
+description: "메인 페이지 UI 개선 사항"
+labels: "🎨 Enhancement"
+body:
+  - type: textarea
+    attributes:
+      label: 📄 설명
+      description: UI 개선사항 설명
+      placeholder: 개선하고자 하는 UI 요소와 문제점을 자세히 적어주세요.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 🎨 개선 제안
+      description: 개선 아이디어
+      placeholder: 어떻게 개선되면 좋을지 구체적으로 설명해주세요.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 📱 스크린샷
+      description: 현재 UI와 개선안 참고 이미지
+      placeholder: 관련 스크린샷이나 디자인 시안이 있다면 첨부해주세요.
+    validations:
+      required: false
