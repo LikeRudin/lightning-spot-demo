@@ -9,6 +9,11 @@ backend - 영진
 ## TECH STACKS
 
 
+### LANGUAGE
+
+![TypeScript](https://img.shields.io/badge/TypeScript-333?style=flat-square&logo=typescript&logoColor=white&labelColor=007ACC)
+
+
 ### FRONTEND
 ![React](https://img.shields.io/badge/React-333?style=flat-square&logo=react&logoColor=61DAFB&labelColor=20232A)
 
