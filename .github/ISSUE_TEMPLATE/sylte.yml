@@ -1,0 +1,18 @@
+name: "style"
+description: "스타일에 대한 모든"
+labels: "🎨 style"
+body:
+  - type: textarea
+    attributes:
+      label: 📄 설명
+      description: UI 스타일에 대한 자세한 설명
+      placeholder: 예) 버튼 크기, 색상, 레이아웃 등의 UI 
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 🎨 개선 제안
+      description: UI 개선 아이디어 및 구체적인 제안 - 수정정
+      placeholder: 예) 버튼 크기 조정, 색상 변경, 레이아웃 수정 등의 구체적인 개선 방법
+    validations:
+      required: true
