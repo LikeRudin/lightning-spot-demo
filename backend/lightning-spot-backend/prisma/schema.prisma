@@ -1,0 +1,219 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+
+/*=================================*/
+/*             User🧑‍🦱 - 회원        */
+/*=================================*/
+
+
+
+enum Role {
+  ADMIN
+  MEMBER
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  email     String   @unique  @db.VarChar(255)
+  username      String  @db.VarChar(100)
+  password String  @db.VarChar(255)
+  
+  role  Role
+
+  lightningPosts LightningPost[] @relation("UserLightningPosts")
+  lightningPostLike LightningPostLike[] 
+  lightningPostComments LightningPostComment[] @relation("UserLightningPostComments")
+
+
+  blahPosts BlahPost[] @relation("UserBlahPosts")
+  blahPostLike BlahPostLike[] @relation("UserBlahPostLikes")
+  blahPostComments BlahPostComment[] @relation("UserBlahPostComments")
+
+  notices Notice[] @relation("AdminUserNotices")
+}
+
+
+
+
+/*=================================*/
+/*      ⚡️Lightning - 번개 게시물    */
+/*=================================*/
+
+enum LightningCategory {
+  CODING //"코딩"
+  ETC //"기타"
+  TOUR // "투어"
+}
+
+enum LightningStatus {
+  RECRUITING // 모집중
+  CLOSED     // 모집마감
+  CANCELED   // 취소
+  FINISHED   // 종료
+  ONGOING     // 현재 진행중
+}
+
+model LightningPost {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  title String
+  content String
+  scheduledAt DateTime // 사용자 설정 약속 시간 
+
+  status LightningStatus
+  category LightningCategory  
+
+
+  comments LightningPostComment[] @relation("LightningPostComments")
+  likes LightningPostLike[]
+
+  userId Int?
+  user User? @relation("UserLightningPosts", fields: [userId], references: [id], onDelete: SetNull)
+
+   @@index([title])
+  @@index([category])
+}
+
+model LightningPostLike  {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  lightningPostId Int
+  lightningPost LightningPost @relation( fields: [lightningPostId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([lightningPostId])
+}
+
+
+model LightningPostComment {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  content String
+
+  lightningPostId Int
+  lightningPost LightningPost @relation("LightningPostComments", fields: [lightningPostId], references: [id] , onDelete: Cascade)
+
+  userId Int? 
+  user User? @relation("UserLightningPostComments", fields: [userId], references: [id], onDelete: SetNull) 
+}
+
+
+
+
+
+/*=================================*/
+/*      🗣️BlahPost  - 자유 게시물     */
+/*=================================*/
+
+enum BlahPostCategory {
+  RECOMMEND //"추천"
+  ETC //"잡담"
+}
+
+
+
+model BlahPost {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  title String
+  content String
+
+  category BlahPostCategory  
+
+  comments BlahPostComment[] @relation("BlahPostComments")
+  likes BlahPostLike[] @relation("BlahPostLikes")
+
+  userId Int?
+  user User? @relation("UserBlahPosts", fields: [userId], references: [id], onDelete: SetNull)
+}
+
+model BlahPostComment {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+
+  content String //본문
+
+  userId    Int?
+  user      User?     @relation("UserBlahPostComments", fields: [userId], references: [id], onDelete: SetNull)
+
+  blahPostId Int
+  blahPost BlahPost @relation("BlahPostComments" ,fields: [blahPostId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([blahPostId])
+}
+
+
+model BlahPostLike {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  blahPostId Int
+  blahPost BlahPost @relation("BlahPostLikes", fields: [blahPostId], references: [id], onDelete: Cascade)
+
+  userId Int 
+  user User @relation("UserBlahPostLikes", fields: [userId], references: [id], onDelete: Cascade) 
+
+  @@index([userId])
+  @@index([blahPostId])
+}
+
+
+
+
+
+
+/*=================================*/
+/*       📣 -  공지사항             */
+/*=================================*/
+
+
+enum NoticeCategory {
+EVENT //이벤트
+GUIDE // 안내
+WARNING // 주의
+}
+
+model Notice {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  title String
+  content String
+  category NoticeCategory  
+
+  userId Int?
+  user User? @relation("AdminUserNotices", fields: [userId], references: [id], onDelete: SetNull)
+}

@@ -1,0 +1,29 @@
+name: "Init"
+description: "프로젝트 기본 구조 설정"
+labels: "📍init"
+body:
+ - type: textarea
+   attributes:
+     label: 📄 설명
+     description: 구현사항 설명
+     placeholder: 프로젝트 초기 설정 내용을, 구성요소, 파일 구조 등을 자세히 적어주세요.
+   validations:
+     required: true
+ - type: textarea
+   attributes:
+     label: 📋 체크리스트
+     description: 설정 완료 항목
+     placeholder: |
+       - [ ] 프로젝트 폴더 구조 생성
+       - [ ] 패키지 의존성 설치
+       - [ ] 환경 설정 파일 구성
+       - [ ] 기본 컴포넌트 구현
+   validations:
+     required: false
+ - type: textarea
+   attributes:
+     label: 🔄 테스트 방법
+     description: 설정 검증 방법
+     placeholder: 초기 설정이 제대로 되었는지 확인하는 방법을 적어주세요.
+   validations:
+     required: false

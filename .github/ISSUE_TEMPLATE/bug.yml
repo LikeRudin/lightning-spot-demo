@@ -1,0 +1,11 @@
+name: "Bug"
+description: "오류 사항 수정"
+labels: "🐞 Bug"
+body:
+  - type: textarea
+    attributes:
+      label: 📄 설명
+      description: 버그 설명
+      placeholder: 자세히 적어주세요.
+    validations:
+      required: true
