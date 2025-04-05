@@ -1,16 +1,19 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import { ConfigService } from '@nestjs/config';
+import { createCorsOptions } from './config/\bcors.config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  await app.listen(process.env.PORT ?? 3000);
 
-  const user = await prisma.user.findMany({
-    take: 10,
-  });
-  console.log(`test array: ${JSON.stringify(user)}`);
+  /** enable cors */
+  const configService = app.get(ConfigService);
+  const corsOptions = createCorsOptions(configService);
+  app.enableCors(corsOptions);
+
+  /** set port */
+  const port = configService.get<number>('PORT');
+
+  await app.listen(port ?? 3000);
 }
 bootstrap();
